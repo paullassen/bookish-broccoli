@@ -14,11 +14,16 @@ sheet = xlrd.open_workbook('./Concrete_Data.xls').sheet_by_index(0)
 # Store first row (Label Row)
 attributeTitles = sheet.row_values(0, 0, 9)
 
+# create output vector 
 y = np.asarray(sheet.col_values(8,1,1031))
+# thresholded output vector for classification
+y_bin = y >= (np.max(y)-np.min(y))*0.9 + np.min(y);
 
+# Create and Fill in attribute array
 X = np.empty((1030,8))
 for i, col_id in enumerate(range(0,8)):
     X[:, i] = np.asarray(sheet.col_values(col_id, 1, 1031))
     
 N = len(y)
 M = len(attributeTitles)
+    
